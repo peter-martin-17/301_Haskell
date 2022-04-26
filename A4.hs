@@ -92,8 +92,8 @@ maxDiff y = maximum y-minimum y
 windSpeed Observation (_ _ _ _ w) = w
 
 -- Question 2a
--- chunkby :: ...
--- chunkby ...
+chunkby :: [a]->Int->[[a]]
+chunkby list n = replicate n list 
 
 -- Question 2b
 -- chunkByDays :: ...
