@@ -77,8 +77,8 @@ readData filename = do
 --------------------------------------------
 
 -- Question 1a
--- average :: ...
--- average ...
+average :: [Float] -> Float
+average floatList = (foldl1 (+) (floatList)) / (fromIntegral (length floatList))
 
 -- Question 1b
 maxDiff :: [Float]->Float
