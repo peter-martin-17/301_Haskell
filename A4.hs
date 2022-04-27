@@ -101,9 +101,9 @@ chunkby list n = replicate n list
 
 
 -- 3a: add type declaration here 
+dailyTemperatureStat :: ([Float]->b->[c])->Int->[Observation]->b->[c]
 -- 3a: add an explanation
--- dailyTemperatureStat :: ...
-{-
+
 dailyTemperatureStat f day obsData = f (map temp dayList)  
   where 
     h = 24*(day-1)
@@ -124,7 +124,7 @@ allMinimumTemp filename = do
   let result = ...
   putStr "Minimum temperature for each day of the year:"
   print (result)
--}
+
 -- Question 3c
 -- highDifferentialDays filename = ...
   
