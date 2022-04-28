@@ -37,7 +37,8 @@ data Observation =
    deriving (Eq, Show)
 
 temp (Observation _ _ t _ _) = t
-hour (Observation _ h _ _ _) = h 
+hour (Observation _ h _ _ _) = h
+windSpeed (Observation _ _ _ _ w) = w
 
 instance FromNamedRecord Observation where    
    parseNamedRecord m = 
@@ -85,11 +86,13 @@ maxDiff :: [Float]->Float
 maxDiff y = maximum y-minimum y
 
 -- Question 1c
--- daySummary :: ...
--- daySummary day = ...
+daySummary :: Int -> observationData -> [Float]
+daySummary day obsData = do
+	let result = day ++ average temp obsData ++ maxDiff temp obsData ++ average windSpeed obsData ++ maxDiff windSpeed obsData
+	return (result)
 
 --- any other functions you need for 1a-1c go here
-windSpeed Observation (_ _ _ _ w) = w
+--windSpeed (Observation _ _ _ _ w) = w
 
 -- Question 2a
 chunkby :: [a]->Int->[[a]]
@@ -119,12 +122,12 @@ jan3Minimum filename = do
   print (result)
 
 -- Question 3b
-allMinimumTemp filename = do 
+{--allMinimumTemp filename = do 
   obsData <- readData filename
   let result = ...
   putStr "Minimum temperature for each day of the year:"
   print (result)
-
+--}
 -- Question 3c
 -- highDifferentialDays filename = ...
   
