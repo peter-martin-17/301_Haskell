@@ -82,14 +82,13 @@ average :: [Float] -> Float
 average floatList = (foldl1 (+) (floatList)) / (fromIntegral (length floatList))
 
 -- Question 1b
-maxDiff :: [Float]->Float
+maxDiff :: [Float]-> Float
 maxDiff y = maximum y-minimum y
 
 -- Question 1c
-daySummary :: Int -> observationData -> [Float]
-daySummary day obsData = do
-	let result = day ++ average temp obsData ++ maxDiff temp obsData ++ average windSpeed obsData ++ maxDiff windSpeed obsData
-	return (result)
+
+daySummary :: Int -> [Observation] -> (Int, Float, Float, Float, Float)
+daySummary day obsData = (day, average (map temp (take 24 (drop (24*day+1) obsData))), maxDiff (map temp (take 24 (drop (24*day+1) obsData))), average (map windSpeed (take 24 (drop (24*day+1) obsData))), maxDiff (map windSpeed (take 24 (drop (24*day+1) obsData))))
 
 --- any other functions you need for 1a-1c go here
 --windSpeed (Observation _ _ _ _ w) = w
