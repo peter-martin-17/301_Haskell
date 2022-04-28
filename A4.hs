@@ -38,7 +38,6 @@ data Observation =
 
 temp (Observation _ _ t _ _) = t
 hour (Observation _ h _ _ _) = h
-windSpeed (Observation _ _ _ _ w) = w
 
 instance FromNamedRecord Observation where    
    parseNamedRecord m = 
@@ -88,10 +87,10 @@ maxDiff y = maximum y-minimum y
 -- Question 1c
 
 daySummary :: Int -> [Observation] -> (Int, Float, Float, Float, Float)
-daySummary day obsData = (day, average (map temp (take 24 (drop (24*day+1) obsData))), maxDiff (map temp (take 24 (drop (24*day+1) obsData))), average (map windSpeed (take 24 (drop (24*day+1) obsData))), maxDiff (map windSpeed (take 24 (drop (24*day+1) obsData))))
+daySummary day obsData = (day, average (map temp (take 24 (drop (24*(day-1)) obsData))), maxDiff (map temp (take 24 (drop (24*(day-1)) obsData))), average (map windSpeed (take 24 (drop (24*(day-1)) obsData))), maxDiff (map windSpeed (take 24 (drop (24*(day-1)) obsData))))
 
 --- any other functions you need for 1a-1c go here
---windSpeed (Observation _ _ _ _ w) = w
+windSpeed (Observation _ _ _ _ w) = w
 
 -- Question 2a
 chunkby :: [a]->Int->[[a]]
