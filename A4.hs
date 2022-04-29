@@ -137,9 +137,10 @@ allMinimumTemp filename = do
 -}
 {-
 -- Question 3c
-highDifferentialDays filename = 
-  obsdata<-readData filename
-  if length obsData == 0
-  let result = filter(>15)(maxDiff (map temp (take 24 (drop (24*(day-1)) obsData))))
-  print (result)
--}
+
+highDifferentialDays filename = do
+  obsdata<-readData filename 
+  if length obsData == 0 then []
+  else do
+    day,(filter(>15)(maxDiff (map temp (take 24 (drop (24*(day-1)) obsData))))),average (map temp (take 24 (drop (24*(day-1)) obsData)))
+
