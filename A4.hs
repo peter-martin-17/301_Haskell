@@ -109,9 +109,11 @@ chunkby l n =
 
 
 -- Question 2b
--- chunkByDays :: [a]->[[a]]
--- chunkByDays day obsData = 
- 
+--chunkByDays :: [a]->[[a]]
+--chunkByDays l = (chunkby [hour] 24)
+chunkByDays hour = do
+  let result=(chunkby [hour] 24)
+  putStrLn $ show [result]
 
 {-
 -- 3a: add type declaration here 
