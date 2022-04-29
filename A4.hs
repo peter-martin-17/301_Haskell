@@ -109,11 +109,8 @@ chunkby l n =
 
 
 -- Question 2b
---chunkByDays :: [a]->[[a]]
---chunkByDays l = (chunkby [hour] 24)
-chunkByDays hour = do
-  let result=(chunkby [hour] 24)
-  putStrLn $ show [result]
+chunkByDays :: [a]->[[a]]
+chunkByDays l  = (chunkby (l) 24)
 
 {-
 -- 3a: add type declaration here 
