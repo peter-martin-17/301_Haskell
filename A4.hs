@@ -102,15 +102,21 @@ chunkby l n =
 chunkByDays :: [a]->[[a]]
 chunkByDays l  = (chunkby (l) 24)
 
-{-
+
 -- 3a: add type declaration here 
-dailyTemperatureStat :: (a->b)->Int->[Observation]->t
+dailyTemperatureStat :: ([Float]->t)->Int->[Observation]->t
 -- 3a: add an explanation
+{-
+dailyTemperatureStat takes a function that takes a list of floats and outputs a generic type "t", integer, and a list of 
+observations as parameters. It outputs a generic type "t". The output is generic because in the function definition, the function
+"f" wraps around the entire expression, so whatever that function outputs is dailyTemperatureStat's output. This nested function has
+to take a list of floats because that is what its parameter "map temp dayList" returns.
+-}
 dailyTemperatureStat f day obsData = f (map temp dayList)  
   where 
     h = 24*(day-1)
     dayList = (take 24 (drop h obsData))
--}
+
 -- Example function for 3b: Computes the minimum temperature for Jan 3 based on the 24 hourly measurements
 jan3Minimum filename = do 
   obsData <- readData filename
@@ -137,7 +143,7 @@ highDifferentialDays filename = do
 
 --highDifferentialDays filename = do
   --obsData <- readData filename
-  [--maxDiff (map.map temp (take 24 (drop day-1 (chunkByDays obsData)))) | day <- [1..365]]
+  --maxDiff (map.map temp (take 24 (drop day-1 (chunkByDays obsData)))) | day <- [1..365]]
   --[(day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))) | day <- [1..365]]
   --filter ( > 15) findTempMaxDiff obsData
   --[if ((maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))) > 15.0) then (day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))):tempList else (1, 1.0, 1.0) | day <- [1..365]]
