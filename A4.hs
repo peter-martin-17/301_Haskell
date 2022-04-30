@@ -91,22 +91,12 @@ daySummary day obsData = (day, average (map temp (take 24 (drop (24*(day-1)) obs
 --- any other functions you need for 1a-1c go here
 windSpeed (Observation _ _ _ _ w) = w
 
-
-
-eleList=[[]]
 -- Question 2a
 chunkby :: [a]->Int->[[a]]
 chunkby l n = 
   if (length l) == 0 then []
   else do
-    --let localList = []
-    --localList:(take n l)
-    --sequence (map print [1,2,3,4,5])
-    --[take n l] : eleList  
-    --chunkby (drop n l) n 
     (take n l):(chunkby (drop n l) n )
-
-
 
 -- Question 2b
 chunkByDays :: [a]->[[a]]
