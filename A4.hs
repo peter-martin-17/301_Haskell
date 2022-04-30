@@ -123,31 +123,19 @@ jan3Minimum filename = do
   let result = minimum (map temp (take 24 (drop 48 obsData)))
   putStr "minimum temperature on January 3 = "
   print (result)
+
 {-
 -- Question 3b
 allMinimumTemp filename = do 
   obsData <- readData filename
-  let result = ...
+  let result = [dailyTemperatureStat(minimum, day, obsData) | day <- [1..365]]
   putStr "Minimum temperature for each day of the year:"
   print (result)
 -}
 
 -- Question 3c
-{-
+
 highDifferentialDays filename = do
-  obsdata<-readData filename 
-  if length obsData == 0 then []
-  else do
-    day,(filter(>15)(maxDiff (map temp (take 24 (drop (24*(day-1)) obsData))))),average (map temp (take 24 (drop (24*(day-1)) obsData)))
--}
-
---highDifferentialDays filename = do
-  --obsData <- readData filename
-  --maxDiff (map.map temp (take 24 (drop day-1 (chunkByDays obsData)))) | day <- [1..365]]
-  --[(day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))) | day <- [1..365]]
-  --filter ( > 15) findTempMaxDiff obsData
-  --[if ((maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))) > 15.0) then (day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))):tempList else (1, 1.0, 1.0) | day <- [1..365]]
-  
-
---findTempMaxDiff :: [Observation] -> (Int, Float, Float)
---findTempMaxDiff obsData = [ (day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))) | day <- [1..365]]
+  obsData <- readData filename
+  let result = [(day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))) | day <- [1..365], ((maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))) > 15.0)]
+  print (result)
