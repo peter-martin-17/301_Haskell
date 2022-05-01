@@ -124,14 +124,13 @@ jan3Minimum filename = do
   putStr "minimum temperature on January 3 = "
   print (result)
 
-{-
 -- Question 3b
 allMinimumTemp filename = do 
   obsData <- readData filename
-  let result = [dailyTemperatureStat(minimum, day, obsData) | day <- [1..365]]
+  let result = [(day, (dailyTemperatureStat minimum day obsData)) | day <- [1..365]]
   putStr "Minimum temperature for each day of the year:"
   print (result)
--}
+
 
 -- Question 3c
 
