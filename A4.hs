@@ -77,14 +77,17 @@ readData filename = do
 --------------------------------------------
 
 -- Question 1a
+
 average :: [Float] -> Float
 average floatList = (foldl1 (+) (floatList)) / (fromIntegral (length floatList))
 
 -- Question 1b
+
 maxDiff :: [Float]->Float
 maxDiff y = maximum y-minimum y
 
 -- Question 1c
+
 daySummary :: Int -> [Observation] -> (Int, Float, Float, Float, Float)
 daySummary day obsData = (day, average (map temp (take 24 (drop (24*(day-1)) obsData))), maxDiff (map temp (take 24 (drop (24*(day-1)) obsData))), average (map windSpeed (take 24 (drop (24*(day-1)) obsData))), maxDiff (map windSpeed (take 24 (drop (24*(day-1)) obsData))))
 
@@ -95,23 +98,28 @@ windSpeed (Observation _ _ _ _ w) = w
 chunkby :: [a]->Int->[[a]]
 chunkby l n = 
   if (length l) == 0 then []
-  else do
+  else
     (take n l):(chunkby (drop n l) n )
 
 -- Question 2b
+
 chunkByDays :: [a]->[[a]]
 chunkByDays l  = (chunkby (l) 24)
 
 
--- 3a: add type declaration here 
+-- 3a: add type declaration here
+
 dailyTemperatureStat :: ([Float]->t)->Int->[Observation]->t
+
 -- 3a: add an explanation
+
 {-
 dailyTemperatureStat takes a function that takes a list of floats and outputs a generic type "t", integer, and a list of 
 observations as parameters. It outputs a generic type "t". The output is generic because in the function definition, the function
 "f" wraps around the entire expression, so whatever that function outputs is dailyTemperatureStat's output. This nested function has
 to take a list of floats because that is what its parameter "map temp dayList" returns.
 -}
+
 dailyTemperatureStat f day obsData = f (map temp dayList)  
   where 
     h = 24*(day-1)
@@ -125,6 +133,7 @@ jan3Minimum filename = do
   print (result)
 
 -- Question 3b
+
 allMinimumTemp filename = do 
   obsData <- readData filename
   let result = [(day, (dailyTemperatureStat minimum day obsData)) | day <- [1..365]]
@@ -134,7 +143,14 @@ allMinimumTemp filename = do
 
 -- Question 3c
 
-highDifferentialDays filename = do
+{-highDifferentialDays filename = do
   obsData <- readData filename
   let result = [(day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))) | day <- [1..365], ((maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))) > 15.0)]
+  print (result)-}
+
+-- EC
+
+highDifferentialDays filename = do
+  obsData <- readData filename
+  let result = [(day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))) | day <- [1..365], ((maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))) > 15.0), (dailyTemperatureStat minimum day obsData) > -99]
   print (result)
