@@ -117,7 +117,9 @@ dailyTemperatureStat :: ([Float]->t)->Int->[Observation]->t
 dailyTemperatureStat takes a function that takes a list of floats and outputs a generic type "t", integer, and a list of 
 observations as parameters. It outputs a generic type "t". The output is generic because in the function definition, the function
 "f" wraps around the entire expression, so whatever that function outputs is dailyTemperatureStat's output. This nested function has
-to take a list of floats because that is what its parameter "map temp dayList" returns.
+to take a list of floats because that is what its parameter "map temp dayList" returns. A list of Observation has to be inputted
+instead of a list of generic type because there is a function, temp, that can only be done on a list of Observation
+in the "dayList = (take 24 (drop h obsData))" line".
 -}
 
 dailyTemperatureStat f day obsData = f (map temp dayList)  
@@ -145,12 +147,18 @@ allMinimumTemp filename = do
 
 {-highDifferentialDays filename = do
   obsData <- readData filename
-  let result = [(day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))) | day <- [1..365], ((maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))) > 15.0)]
+  let result = [(day, (dailyTemperatureStat maxDiff day obsData), (dailyTemperatureStat average day obsData)) | day <- [1..365], (dailyTemperatureStat maxDiff day obsData) > 15.0)]
   print (result)-}
 
 -- EC
+{-Here are the modifications made to the highDifferentialDays in 3c. The code for 3c is commented out because the extra credit code
+is the same functon. The function now filters out hours that are less or equal to -99.9 degrees. Also, there is a guard in the
+list comprehension that requires the day to have at least a quarter (6) of its data still present after the filtering. If this
+condition is not met, the function does not include that day in its list of tuples. This was implemented because there were
+days that had only -99.9 degree temperature for each hour (which cannot be calculated with the filter), and days with very little
+temperatures that were above -99.9 degrees.-}
 
 highDifferentialDays filename = do
   obsData <- readData filename
-  let result = [(day, (maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))), (average (map temp (take 24 (drop (24*(day-1)) obsData))))) | day <- [1..365], ((maxDiff (map temp (take 24 (drop (24*(day-1)) obsData)))) > 15.0), (dailyTemperatureStat minimum day obsData) > -99]
+  let result = [(day, (maxDiff (filter (>(-99.9)) (map temp (take 24 (drop (24*(day-1)) obsData))))), (average (filter (>(-99.9)) (map temp (take 24 (drop (24*(day-1)) obsData)))))) | day <- [1..365], (length (filter (>(-99.9)) (map temp (take 24 (drop (24*(day-1)) obsData))))) > 5,  ((dailyTemperatureStat maxDiff day obsData) > 15.0)]
   print (result)
